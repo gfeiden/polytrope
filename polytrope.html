@@ -1,0 +1,21 @@
+<!doctype html>
+
+<html>
+    <head>
+        <script src="polytrope.js"></script>
+    </head>
+    <body>
+        <h1>Polytrope Calculator</h1>
+        <p id="test"></p>
+
+        <button type="button" onClick="starModel()">Calculate Polytrope</button>
+        
+        <script>
+            function starModel(){
+                var Star = polytrope();
+                var len = Star.y.length;
+                document.getElementById("test").innerHTML = Star.P[0];
+            }
+        </script>       
+    </body>
+</html>
