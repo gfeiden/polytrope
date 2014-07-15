@@ -2,7 +2,10 @@
 
 <html>
     <head>
-        <script src="polytrope.js"></script>
+        <script src="./js/polytrope.js"></script>
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>
     </head>
     <body>
         <h1>Polytrope Calculator</h1>
@@ -10,12 +13,49 @@
 
         <button type="button" onClick="starModel()">Calculate Polytrope</button>
         
+        <div id="plot" style="min-width: 310px; height: 400px; margin: 0 auto;"></div>
+
         <script>
-            function starModel(){
-                var Star = polytrope();
-                var len = Star.y.length;
-                document.getElementById("test").innerHTML = Star.P[0];
+            var Star = polytrope();
+            var size = Star.x.length;
+            var poly = [];
+            var subtext = "polytropic index n = ".concat(Star.n.toString())
+            for (i = 0; i < size; ++i) {
+                poly[i] = [Math.pow(10.0, Star.R[i] - Constants.logRsun), Math.pow(10.0, Star.rho[i])];
             }
+            $(function () {
+                $('#plot').highcharts({
+                    chart: {
+                        type: 'scatter'
+                    },
+                    title: {
+                        text: "Simple Polytope Model",
+                        x: -20 // center
+                    },
+
+                    subtitle: {
+                        text: subtext,
+                        x: -20
+                    },
+
+                    xAxis: {
+                        title: {
+                            text: "Radius (Rsun)"
+                        }
+                    },
+
+                    yAxis: {
+                        title: {
+                            text: "Physical Properties (cgs)"
+                        }
+                    },
+
+                    series: [{
+                        name: "Density (g/cm^3)",
+                        data: poly
+                    }]
+                });
+            });
         </script>       
     </body>
 </html>
